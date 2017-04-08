@@ -58,4 +58,11 @@ describe Keyer do
       expect_raises(Exception) { v["a"]["s"]["d"]["f"]["g"] }
     end
   end
+
+  describe "unescaping" do
+    it "translate URI escaped characters" do
+      v = Keyer::Parser.new("asd%C6%92=asd%C6%92")
+      v["asdƒ"].should eq("asdƒ")
+    end
+  end
 end

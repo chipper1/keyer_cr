@@ -1,4 +1,5 @@
 require "./keyer/*"
+require "uri"
 
 module Keyer
   class Parser
@@ -25,18 +26,12 @@ module Keyer
       return nil unless is_valid params
       @singles = collection.map do |kv|
         k,v = kv.split("=")
-        Single.new(k, v)
+        Single.new(URI.unescape(k), URI.unescape(v))
       end
     end
 
     private def is_valid(params : String)
-      # Validate each item has assignment operator for key value pairs
-      collection.all? {|s| s["="]? } #&&
-      # TODO: FIX REGEX CHECK!  Works in Ruby, not here.
-      #  collection.all? {|s|
-      #    # Regex to validate nested parameters
-      #    s.match(/\w+(?:(?:\[\w+\])+)?/) == s.split("=").first
-      #  }
+      collection.all? {|s| s["="]? }
     end
     private property collection
     private property singles
