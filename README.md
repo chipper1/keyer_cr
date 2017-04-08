@@ -1,5 +1,7 @@
 # keyer
 
+[![Build Status](https://travis-ci.org/danielpclark/keyer_cr.svg?branch=master)](https://travis-ci.org/danielpclark/keyer_cr)
+
 TODO: Write a description here
 
 ## Installation
