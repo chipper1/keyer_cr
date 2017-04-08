@@ -16,7 +16,7 @@ module Keyer
     def []?(key : String)
       return nil unless singles
       singles.not_nil!.each do |single|
-        return single if single[key]? 
+        return single[key] if single[key]? 
       end
       nil
     end
@@ -31,11 +31,12 @@ module Keyer
 
     private def is_valid(params : String)
       # Validate each item has assignment operator for key value pairs
-      collection.all? {|s| s["="]? } &&
-        collection.all? {|s|
-          # Regex to validate nested parameters
-          s.match(/\w+(?:(?:\[\w+\])+)?/) == s.split("=").first
-        }
+      collection.all? {|s| s["="]? } #&&
+      # TODO: FIX REGEX CHECK!  Works in Ruby, not here.
+      #  collection.all? {|s|
+      #    # Regex to validate nested parameters
+      #    s.match(/\w+(?:(?:\[\w+\])+)?/) == s.split("=").first
+      #  }
     end
     private property collection
     private property singles
@@ -47,11 +48,14 @@ module Keyer
       end
 
       def [](key : String)
-        @root.not_nil![key]
+        self[key]? || raise KeyError.new "Missing Keyer::Parser::Single key: #{key.inspect}"
       end
 
       def []?(key : String)
-        @root.not_nil![key]?
+        @root.not_nil![key]? || begin
+            k = @root.not_nil!.keys.first
+            return @root.not_nil![k] if k =~ /\A#{key}\].*/
+          end
       end
 
       def call
