@@ -9,7 +9,7 @@ Add this to your application's `shard.yml`:
 ```yaml
 dependencies:
   keyer:
-    github: danielpclark/keyer
+    github: danielpclark/keyer_cr
 ```
 
 ## Usage
